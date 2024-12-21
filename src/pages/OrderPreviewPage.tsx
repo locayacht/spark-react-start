@@ -1,11 +1,12 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Calendar, Truck } from 'lucide-react';
+import { Calendar, Truck, Tag, ArrowLeft, CreditCard } from 'lucide-react';
 import TopNavbar from '@/components/TopNavbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { Input } from '@/components/ui/input';
 
 const OrderPreviewPage = () => {
   const { state } = useLocation();
@@ -44,6 +45,14 @@ const OrderPreviewPage = () => {
           animate={{ opacity: 1, y: 0 }}
           className="max-w-4xl mx-auto"
         >
+          <button
+            onClick={() => navigate('/cart')}
+            className="flex items-center text-[#700100] hover:text-[#591C1C] mb-6 transition-colors"
+          >
+            <ArrowLeft className="mr-2" size={20} />
+            Retour au panier
+          </button>
+
           <h1 className="text-3xl font-serif text-[#1A1F2C] mb-8">Aperçu de votre commande</h1>
           
           <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
@@ -89,6 +98,23 @@ const OrderPreviewPage = () => {
           </div>
 
           <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
+            <h2 className="text-xl font-medium mb-4">Code promo</h2>
+            <div className="flex gap-2">
+              <Input 
+                placeholder="Entrez votre code promo"
+                className="flex-1"
+              />
+              <Button 
+                variant="outline"
+                className="border-[#700100] text-[#700100] hover:bg-[#700100] hover:text-white"
+              >
+                <Tag className="mr-2" size={20} />
+                Appliquer
+              </Button>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
             <h2 className="text-xl font-medium mb-4">Résumé</h2>
             <div className="space-y-2">
               <div className="flex justify-between text-gray-600">
@@ -107,21 +133,13 @@ const OrderPreviewPage = () => {
             </div>
           </div>
 
-          <div className="flex justify-between items-center">
-            <Button
-              variant="outline"
-              onClick={() => navigate('/cart')}
-              className="border-[#700100] text-[#700100] hover:bg-[#700100] hover:text-white"
-            >
-              Retour au panier
-            </Button>
-            <Button
-              onClick={handleConfirmOrder}
-              className="bg-[#700100] text-white hover:bg-[#591C1C]"
-            >
-              Confirmer la commande
-            </Button>
-          </div>
+          <Button
+            onClick={handleConfirmOrder}
+            className="w-full bg-[#700100] text-white hover:bg-[#591C1C] py-6 text-lg"
+          >
+            <CreditCard className="mr-2" size={20} />
+            {paymentMethod === 'konnekt' ? 'Payer avec Konnekt' : 'Payer en espèces'}
+          </Button>
         </motion.div>
       </div>
       <Footer />
