@@ -3,6 +3,9 @@ import { Product } from '../types/product';
 
 const BASE_URL = 'https://respizenmedical.com/fiori';
 
+// New variable to store current route segments
+export let currentRouteSegments: string[] = [];
+
 interface ApiResponse {
   status: string;
   products: {
@@ -19,6 +22,11 @@ interface ApiResponse {
     createdate_product: string;
   }[];
 }
+
+export const setCurrentRouteSegments = (segments: string[]) => {
+  currentRouteSegments = segments;
+  console.log('Current Route Segments:', currentRouteSegments);
+};
 
 export const fetchAllProducts = async (): Promise<Product[]> => {
   try {
