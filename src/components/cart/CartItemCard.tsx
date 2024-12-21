@@ -20,10 +20,10 @@ const CartItemCard = ({ item, onUpdateQuantity, onRemove }: CartItemCardProps) =
   <motion.div 
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    className="bg-white rounded-lg shadow-sm p-6 transition-all duration-300 hover:shadow-md border border-gray-100"
+    className="bg-white rounded-xl shadow-sm p-6 transition-all duration-300 hover:shadow-md border border-gray-100/50 backdrop-blur-sm"
   >
     <div className="flex items-center gap-6">
-      <div className="w-24 h-24 bg-[#F1F0FB] rounded-md overflow-hidden group">
+      <div className="w-24 h-24 bg-[#F1F0FB] rounded-lg overflow-hidden group">
         <img
           src={item.image}
           alt={item.name}
@@ -34,8 +34,8 @@ const CartItemCard = ({ item, onUpdateQuantity, onRemove }: CartItemCardProps) =
         <h3 className="text-lg font-serif text-[#1A1F2C] mb-1 hover:text-[#700100] transition-colors cursor-pointer">
           {item.name}
         </h3>
-        <p className="text-[#8E9196] text-sm mb-2">Réf: {item.id.toString().padStart(6, '0')}</p>
-        <div className="flex items-center gap-4">
+        <p className="text-[#8E9196] text-sm mb-3">Réf: {item.id.toString().padStart(6, '0')}</p>
+        <div className="flex items-center gap-4 bg-[#F1F0FB] rounded-full px-4 py-1 w-fit">
           <button
             onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
             className="text-[#8E9196] hover:text-[#700100] transition-colors"
@@ -43,7 +43,7 @@ const CartItemCard = ({ item, onUpdateQuantity, onRemove }: CartItemCardProps) =
           >
             <MinusCircle size={20} />
           </button>
-          <span className="w-8 text-center font-medium text-black">{item.quantity}</span>
+          <span className="w-8 text-center font-medium text-[#1A1F2C]">{item.quantity}</span>
           <button
             onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
             className="text-[#8E9196] hover:text-[#700100] transition-colors"

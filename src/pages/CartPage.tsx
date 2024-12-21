@@ -92,12 +92,12 @@ const CartPage = () => {
       <TopNavbar />
       <div className="flex-grow">
         <BrandNavbarSection />
-        <div className="container mx-auto px-4 py-4 space-y-4 mt-32">
+        <div className="container mx-auto px-4 py-8 space-y-6 mt-32">
           <BackButton onClick={() => navigate('/')} />
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-3xl font-serif text-[#1A1F2C]"
+            className="text-4xl font-serif text-[#1A1F2C] mb-8"
           >
             Mon Panier ({cartItems.length} articles)
           </motion.h1>
@@ -106,8 +106,8 @@ const CartPage = () => {
             <EmptyCartMessage onNavigate={() => navigate('/')} />
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2 space-y-4">
-                <div className="space-y-4">
+              <div className="lg:col-span-2 space-y-6">
+                <div className="space-y-4 bg-white/50 p-6 rounded-xl backdrop-blur-sm shadow-sm">
                   {cartItems.map((item) => (
                     <CartItemCard
                       key={item.id}
@@ -119,23 +119,27 @@ const CartPage = () => {
                 </div>
                 
                 {(!userDetails || isEditing) && (
-                  <UserDetailsForm 
-                    onComplete={handleFormComplete}
-                    initialData={userDetails}
-                  />
+                  <div className="bg-white/50 p-6 rounded-xl backdrop-blur-sm shadow-sm">
+                    <UserDetailsForm 
+                      onComplete={handleFormComplete}
+                      initialData={userDetails}
+                    />
+                  </div>
                 )}
               </div>
               
-              <OrderSummary
-                total={total}
-                shipping={shipping}
-                finalTotal={finalTotal}
-                userDetails={userDetails}
-                onKonnektClick={handleKonnektPayment}
-                onCashClick={handleCashPayment}
-                onEditDetails={!isEditing ? handleEditDetails : undefined}
-                onDeleteDetails={!isEditing ? handleDeleteDetails : undefined}
-              />
+              <div className="lg:sticky lg:top-8">
+                <OrderSummary
+                  total={total}
+                  shipping={shipping}
+                  finalTotal={finalTotal}
+                  userDetails={userDetails}
+                  onKonnektClick={handleKonnektPayment}
+                  onCashClick={handleCashPayment}
+                  onEditDetails={!isEditing ? handleEditDetails : undefined}
+                  onDeleteDetails={!isEditing ? handleDeleteDetails : undefined}
+                />
+              </div>
             </div>
           )}
         </div>
