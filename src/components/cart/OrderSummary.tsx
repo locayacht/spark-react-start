@@ -9,8 +9,7 @@ interface OrderSummaryProps {
   shipping: number;
   finalTotal: number;
   userDetails: UserDetails | null;
-  onKonnektClick: () => void;
-  onCashClick: () => void;
+  cartItems: any[];
   onEditDetails?: () => void;
   onDeleteDetails?: () => void;
 }
@@ -20,8 +19,7 @@ const OrderSummary = ({
   shipping, 
   finalTotal, 
   userDetails,
-  onKonnektClick,
-  onCashClick,
+  cartItems,
   onEditDetails,
   onDeleteDetails
 }: OrderSummaryProps) => {
@@ -70,16 +68,16 @@ const OrderSummary = ({
         <div className="space-y-4 mb-6">
           <div className="flex justify-between text-[#8E9196]">
             <span>Sous-total</span>
-            <span>€ {total.toFixed(2)}</span>
+            <span>{total.toFixed(2)} TND</span>
           </div>
           <div className="flex justify-between text-[#8E9196]">
             <span>Livraison</span>
-            <span>{shipping === 0 ? 'Gratuite' : `€ ${shipping.toFixed(2)}`}</span>
+            <span>{shipping === 0 ? 'Gratuite' : `${shipping.toFixed(2)} TND`}</span>
           </div>
           <div className="border-t border-gray-100 pt-4">
             <div className="flex justify-between text-lg font-medium text-[#1A1F2C]">
               <span>Total</span>
-              <span>€ {finalTotal.toFixed(2)}</span>
+              <span>{finalTotal.toFixed(2)} TND</span>
             </div>
             <p className="text-xs text-[#8E9196] mt-1">TVA incluse</p>
           </div>
@@ -87,13 +85,16 @@ const OrderSummary = ({
         
         <PaymentButtons 
           enabled={!!userDetails}
-          onKonnektClick={onKonnektClick}
-          onCashClick={onCashClick}
+          cartItems={cartItems}
+          userDetails={userDetails}
+          total={total}
+          shipping={shipping}
+          finalTotal={finalTotal}
         />
 
         <div className="mt-6 space-y-2 text-sm text-[#8E9196]">
           <p className="flex items-center gap-2 hover:text-[#1A1F2C] transition-colors">
-            • Livraison gratuite à partir de 500€
+            • Livraison gratuite à partir de 500 TND
           </p>
           <p className="flex items-center gap-2 hover:text-[#1A1F2C] transition-colors">
             • Retours gratuits sous 14 jours

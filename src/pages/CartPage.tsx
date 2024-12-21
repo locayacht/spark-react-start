@@ -92,12 +92,12 @@ const CartPage = () => {
       <TopNavbar />
       <div className="flex-grow">
         <BrandNavbarSection />
-        <div className="container mx-auto px-4 py-8 space-y-6 mt-32">
+        <div className="container mx-auto px-4 py-4 space-y-4 mt-24">
           <BackButton onClick={() => navigate('/')} />
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl font-serif text-[#1A1F2C] mb-8"
+            className="text-3xl font-serif text-[#1A1F2C]"
           >
             Mon Panier ({cartItems.length} articles)
           </motion.h1>
@@ -111,7 +111,7 @@ const CartPage = () => {
                   {cartItems.map((item) => (
                     <CartItemCard
                       key={item.id}
-                      item={item}
+                      item={{...item, price: item.price}}
                       onUpdateQuantity={handleUpdateQuantity}
                       onRemove={handleRemoveItem}
                     />
@@ -121,7 +121,10 @@ const CartPage = () => {
                 {(!userDetails || isEditing) && (
                   <div className="bg-white/50 p-6 rounded-xl backdrop-blur-sm shadow-sm">
                     <UserDetailsForm 
-                      onComplete={handleFormComplete}
+                      onComplete={(details) => {
+                        setUserDetails(details);
+                        setIsEditing(false);
+                      }}
                       initialData={userDetails}
                     />
                   </div>
@@ -134,10 +137,21 @@ const CartPage = () => {
                   shipping={shipping}
                   finalTotal={finalTotal}
                   userDetails={userDetails}
-                  onKonnektClick={handleKonnektPayment}
-                  onCashClick={handleCashPayment}
-                  onEditDetails={!isEditing ? handleEditDetails : undefined}
-                  onDeleteDetails={!isEditing ? handleDeleteDetails : undefined}
+                  cartItems={cartItems}
+                  onEditDetails={!isEditing ? () => setIsEditing(true) : undefined}
+                  onDeleteDetails={!isEditing ? () => {
+                    localStorage.removeItem('userDetails');
+                    setUserDetails(null);
+                    toast({
+                      title: "Informations supprimées",
+                      description: "Vos informations ont été supprimées avec succès",
+                      style: {
+                        backgroundColor: '#700100',
+                        color: 'white',
+                        border: '1px solid #590000',
+                      },
+                    });
+                  } : undefined}
                 />
               </div>
             </div>

@@ -1,21 +1,49 @@
 import React from 'react';
 import { CreditCard, Wallet } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
 interface PaymentButtonsProps {
   enabled: boolean;
-  onKonnektClick: () => void;
-  onCashClick: () => void;
+  cartItems: any[];
+  userDetails: any;
+  total: number;
+  shipping: number;
+  finalTotal: number;
 }
 
-const PaymentButtons = ({ enabled, onKonnektClick, onCashClick }: PaymentButtonsProps) => {
+const PaymentButtons = ({ 
+  enabled, 
+  cartItems, 
+  userDetails, 
+  total, 
+  shipping, 
+  finalTotal 
+}: PaymentButtonsProps) => {
+  const navigate = useNavigate();
+
+  const handlePayment = (method: 'konnekt' | 'cash') => {
+    navigate('/order-preview', {
+      state: {
+        orderDetails: {
+          items: cartItems,
+          userDetails,
+          total,
+          shipping,
+          finalTotal,
+          paymentMethod: method
+        }
+      }
+    });
+  };
+
   return (
     <div className="space-y-3">
       <motion.button
         initial={{ opacity: 0.5 }}
         animate={{ opacity: enabled ? 1 : 0.5 }}
         whileHover={enabled ? { scale: 1.02 } : {}}
-        onClick={enabled ? onKonnektClick : undefined}
+        onClick={() => enabled && handlePayment('konnekt')}
         disabled={!enabled}
         className="w-full bg-[#700100] text-white px-4 py-3 rounded-md hover:bg-[#591C1C] transition-all duration-300 flex items-center justify-center gap-2 disabled:cursor-not-allowed"
       >
@@ -26,7 +54,7 @@ const PaymentButtons = ({ enabled, onKonnektClick, onCashClick }: PaymentButtons
         initial={{ opacity: 0.5 }}
         animate={{ opacity: enabled ? 1 : 0.5 }}
         whileHover={enabled ? { scale: 1.02 } : {}}
-        onClick={enabled ? onCashClick : undefined}
+        onClick={() => enabled && handlePayment('cash')}
         disabled={!enabled}
         className="w-full border border-[#700100] text-[#700100] px-4 py-3 rounded-md hover:bg-[#F1F0FB] transition-all duration-300 flex items-center justify-center gap-2 disabled:cursor-not-allowed"
       >
